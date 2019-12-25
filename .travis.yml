@@ -20,7 +20,20 @@ after_success:
 
 # Take those images and push them to docker hub
 
-    - docker push infine/multi-client 
-    - docker push infine/multi-server 
-    - docker push infine/multi-worker 
-    - docker push infine/multi-nginx 
+    - docker push infine/multi-client
+    - docker push infine/multi-server
+    - docker push infine/multi-worker
+    - docker push infine/multi-nginx
+
+deploy:
+    provider: elasticbeanstalk
+    region: "us-east-2"
+    app: "multi-docker"
+    env: "MultiDocker-env"
+    bucket_name: "elasticbeanstalk-us-east-2-237705347618"
+    bucket_path: "docker-multi"
+    on:
+        branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key:
+        secure: $AWS_SECRET_KEY
